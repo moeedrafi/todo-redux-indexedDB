@@ -1,18 +1,24 @@
-import type { User } from "../../utils/types";
 import { LOGIN, LOGOUT, SIGNUP } from "../actions/authAction";
 
-interface AuthState {
-  isAutenticated: boolean;
-  user: User | null;
+interface PublicUser {
+  id: string;
+  username: string;
+  email: string;
+  createdAt: Date;
 }
 
-interface AuthAction {
-  type: string;
-  payload: any;
+interface AuthState {
+  isAuthenticated: boolean;
+  user: PublicUser | null;
 }
+
+type AuthAction =
+  | { type: "SIGNUP" } // no payload
+  | { type: "LOGIN"; payload: PublicUser }
+  | { type: "LOGOUT" };
 
 const initialState: AuthState = {
-  isAutenticated: false,
+  isAuthenticated: false,
   user: null,
 };
 
@@ -22,11 +28,11 @@ export const authReducer = (
 ): AuthState => {
   switch (action.type) {
     case SIGNUP:
-      return { ...state, isAutenticated: false };
+      return { ...state, isAuthenticated: false };
     case LOGIN:
-      return { ...state, isAutenticated: true };
+      return { ...state, isAuthenticated: true };
     case LOGOUT:
-      return { ...state, isAutenticated: false };
+      return { ...state, isAuthenticated: false };
     default:
       return state;
   }

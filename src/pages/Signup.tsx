@@ -1,7 +1,11 @@
+import { useDispatch } from "react-redux";
 import { Card } from "../components/Card";
 import { addData, hashPassword } from "../utils/db";
+import { signup } from "../store/actions/authAction";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -23,6 +27,7 @@ const Signup = () => {
 
     try {
       await addData(user);
+      dispatch(signup());
     } catch (error) {
       console.log("Signup error" + error);
     }
