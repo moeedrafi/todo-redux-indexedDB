@@ -1,4 +1,10 @@
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
+
 const Home = () => {
+  const user = useSelector((state: RootState) => state.auth);
+  console.log(user);
+
   return (
     <div className="h-screen flex flex-col items-center justify-center gap-10">
       <h1 className="text-3xl font-semibold">Todo List</h1>

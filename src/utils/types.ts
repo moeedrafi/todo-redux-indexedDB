@@ -3,7 +3,7 @@ export interface User {
   username: string;
   email: string;
   password: string;
-  createdAt: Date;
+  createdAt: number;
 }
 
 export interface Todo {

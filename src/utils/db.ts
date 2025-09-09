@@ -1,3 +1,5 @@
+import type { User } from "./types";
+
 export const initDB = (): Promise<boolean> => {
   return new Promise((resolve) => {
     const request = indexedDB.open("myDB", 1);
@@ -81,4 +83,31 @@ export const hashPassword = async (password: string) => {
   const bytes = Array.from(new Uint8Array(buffer));
 
   return bytes.map((b) => b.toString(16).padStart(2, "0")).join("");
+};
+
+export const findUser = async (email: string): Promise<User | null> => {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("myDB");
+
+    request.onsuccess = () => {
+      console.log("request.onsuccess - finduseremail");
+      const db = request.result;
+      const transaction = db.transaction("auth", "readonly");
+      const store = transaction.objectStore("auth");
+      const index = store.index("email");
+      const query = index.get(email);
+
+      query.onsuccess = () => {
+        resolve(query.result);
+      };
+
+      query.onerror = () => {
+        reject(query.error);
+      };
+    };
+
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
 };

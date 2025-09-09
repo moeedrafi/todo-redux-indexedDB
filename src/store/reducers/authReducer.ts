@@ -4,7 +4,7 @@ interface PublicUser {
   id: string;
   username: string;
   email: string;
-  createdAt: Date;
+  createdAt: number;
 }
 
 interface AuthState {
@@ -30,7 +30,7 @@ export const authReducer = (
     case SIGNUP:
       return { ...state, isAuthenticated: false };
     case LOGIN:
-      return { ...state, isAuthenticated: true };
+      return { ...state, isAuthenticated: true, user: action.payload };
     case LOGOUT:
       return { ...state, isAuthenticated: false };
     default:
