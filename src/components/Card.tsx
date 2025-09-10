@@ -18,7 +18,7 @@ export const Card = ({
   return (
     <section
       aria-labelledby="form-title"
-      className="bg-white p-4 rounded-lg w-[400px] shadow-md"
+      className="bg-white p-4 rounded-lg w-[400px] shadow-md border border-gray-300"
     >
       {/* HEADER */}
       <header className="w-full flex flex-col gap-y-3 items-center justify-center">

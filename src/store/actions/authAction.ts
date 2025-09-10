@@ -6,6 +6,9 @@ export const LOGOUT = "LOGOUT";
 
 export const signup = () => ({ type: SIGNUP });
 
-export const login = (user: User) => ({ type: LOGIN, payload: user });
+export const login = (user: Omit<User, "password">) => ({
+  type: LOGIN,
+  payload: user,
+});
 
 export const logout = () => ({ type: LOGOUT });

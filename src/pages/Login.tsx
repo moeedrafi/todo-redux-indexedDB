@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
-import { Card } from "../components/Card";
-import { findUser, hashPassword } from "../utils/db";
-import { login } from "../store/actions/authAction";
 import { useNavigate } from "react-router";
+
+import { Card } from "../components/Card";
+import type { User } from "../utils/types";
+import { login } from "../store/actions/authAction";
+import { findUser, hashPassword } from "../utils/db";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,18 +15,29 @@ const Login = () => {
 
     const formData = new FormData(e.currentTarget);
     const email = String(formData.get("email")).trim().toLowerCase();
-    const plainPassword = String(formData.get("password") || "");
-    const password = await hashPassword(plainPassword);
+    const plainPassword = String(formData.get("password") || "").trim();
 
-    console.log(email);
+    try {
+      const hashedPassword = await hashPassword(plainPassword);
+      const existingUser = await findUser(email);
 
-    const existingUser = await findUser(email);
+      if (!existingUser) {
+        alert("User not exists");
+        throw new Error("User not exists");
+      }
+      if (existingUser.password !== hashedPassword) {
+        alert("Incorrect Password");
+        throw new Error("Incorrect Password");
+      }
 
-    if (!existingUser) return;
-    if (existingUser.password !== password) return;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...user } = existingUser;
 
-    dispatch(login(existingUser));
-    navigate("/");
+      dispatch(login(user as Omit<User, "password">));
+      navigate("/");
+    } catch (error) {
+      console.log("LOGIN ERROR", error);
+    }
   };
 
   return (

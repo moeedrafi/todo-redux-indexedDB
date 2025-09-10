@@ -1,33 +1,42 @@
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+
 import { Card } from "../components/Card";
-import { addData, hashPassword } from "../utils/db";
+import type { User } from "../utils/types";
 import { signup } from "../store/actions/authAction";
+import { addData, findUser, hashPassword } from "../utils/db";
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const username = String(formData.get("username") || "").trim();
-    const email = String(formData.get("email") || "")
-      .trim()
-      .toLowerCase();
-    const plainPassword = String(formData.get("password") || "");
-    const password = await hashPassword(plainPassword);
-
-    const user = {
-      id: crypto.randomUUID(),
-      username,
-      email,
-      password,
-      createdAt: Date.now(),
-    };
+    const email = String(formData.get("email")).trim().toLowerCase();
+    const plainPassword = String(formData.get("password") || "").trim();
 
     try {
+      const password = await hashPassword(plainPassword);
+      const existingUser = await findUser(email);
+      if (existingUser) {
+        alert("Already a user exists");
+        throw new Error("Already a user exists");
+      }
+
+      const user: User = {
+        id: crypto.randomUUID(),
+        username,
+        email,
+        password,
+        createdAt: Date.now(),
+      };
+
       await addData(user);
       dispatch(signup());
+      navigate("/login");
     } catch (error) {
       console.log("Signup error" + error);
     }
