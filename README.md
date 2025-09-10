@@ -25,11 +25,12 @@ I started simple with authentication signup and login pages styled cleanly. From
 The goal wasn’t to reinvent the wheel, but to create a project that feels solid, responsive, and a little closer to how a real-world app works—only without a server. Along the way, I learned a ton about handling async state, working with IndexedDB directly, and structuring reducers/actions in plain Redux.
 
 ## 🚦 Running the Project
+```
 - Clone the repository
 - Install dependencies: npm install
 - Run development server: npm run dev
 - Open http://localhost:5173 in your browser
-
+```
 
 ## Show your support
 Give a ⭐️ if this project helped you!
