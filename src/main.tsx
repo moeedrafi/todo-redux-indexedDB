@@ -7,11 +7,16 @@ import Signup from "./pages/Signup.tsx";
 import Login from "./pages/Login.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/signup",

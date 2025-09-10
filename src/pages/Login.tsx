@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { Card } from "../components/Card";
@@ -6,10 +6,15 @@ import type { User } from "../utils/types";
 import { findUser } from "../utils/db/auth";
 import { hashPassword } from "../utils/helpers";
 import { login } from "../store/actions/authAction";
+import type { RootState } from "../store/store";
+import { setSession } from "../utils/db/session";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const user = useSelector((state: RootState) => state.auth);
+  console.log(user);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,6 +39,7 @@ const Login = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...user } = existingUser;
 
+      await setSession(user.id);
       dispatch(login(user as Omit<User, "password">));
       navigate("/");
     } catch (error) {

@@ -5,7 +5,7 @@ import { Card } from "../components/Card";
 import type { User } from "../utils/types";
 import { hashPassword } from "../utils/helpers";
 import { signup } from "../store/actions/authAction";
-import { addData, findUser } from "../utils/db/auth";
+import { addUser, findUser } from "../utils/db/auth";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Signup = () => {
         createdAt: Date.now(),
       };
 
-      await addData(user);
+      await addUser(user);
       dispatch(signup());
       navigate("/login");
     } catch (error) {

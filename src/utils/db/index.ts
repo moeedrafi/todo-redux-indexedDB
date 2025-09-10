@@ -14,6 +14,11 @@ export const initDB = (): Promise<IDBDatabase> => {
         authStore.createIndex("email", "email", { unique: true });
       }
 
+      if (!db.objectStoreNames.contains("session")) {
+        console.log("creating session store");
+        db.createObjectStore("session", { keyPath: "key" });
+      }
+
       if (!db.objectStoreNames.contains("todos")) {
         console.log("creating auth store + creating todos store");
 
