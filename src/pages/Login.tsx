@@ -3,8 +3,9 @@ import { useNavigate } from "react-router";
 
 import { Card } from "../components/Card";
 import type { User } from "../utils/types";
+import { findUser } from "../utils/db/auth";
+import { hashPassword } from "../utils/helpers";
 import { login } from "../store/actions/authAction";
-import { findUser, hashPassword } from "../utils/db";
 
 const Login = () => {
   const navigate = useNavigate();

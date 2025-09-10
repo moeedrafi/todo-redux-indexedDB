@@ -3,8 +3,9 @@ import { useNavigate } from "react-router";
 
 import { Card } from "../components/Card";
 import type { User } from "../utils/types";
+import { hashPassword } from "../utils/helpers";
 import { signup } from "../store/actions/authAction";
-import { addData, findUser, hashPassword } from "../utils/db";
+import { addData, findUser } from "../utils/db/auth";
 
 const Signup = () => {
   const dispatch = useDispatch();
