@@ -15,6 +15,7 @@
     "react-dom": "^19.1.1",
     "react-redux": "^9.2.0",
     "react-router": "^7.8.2",
+    "readme-md-generator": "^1.0.0",
     "redux": "^5.0.1",
     "tailwindcss": "^4.1.13"
   },
